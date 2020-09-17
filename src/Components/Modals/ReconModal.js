@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap'
-import TaskForm from '../Forms/TaskForm'
+import AddEditForm from '../Forms/AddEditForm'
 
-function ModalForm(props) {
+function ModalReconForm(props) {
   const [modal, setModal] = useState(false)
 
   const toggle = () => {
@@ -38,9 +38,9 @@ function ModalForm(props) {
       <Modal isOpen={modal} toggle={toggle} className={props.className}>
         <ModalHeader toggle={toggle} close={closeBtn}>{title}</ModalHeader>
         <ModalBody>
-          <TaskForm
+          <AddEditForm
             addItemToState={props.addItemToState}
-            updateState={props.updateState}
+            updateReconState={props.updateReconState}
             toggle={toggle}
             item={props.item} />
         </ModalBody>
@@ -49,4 +49,4 @@ function ModalForm(props) {
   )
 }
 
-export default ModalForm
+export default ModalReconForm

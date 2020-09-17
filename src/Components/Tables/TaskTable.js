@@ -2,22 +2,22 @@ import React from 'react'
 import { Table, Button } from 'reactstrap';
 import ModalForm from '../Modals/Modal'
 
-function DataTable(props){
-  const deleteItem = id => {
+function TaskTable(props){
+  const deleteItem = TASK_ID => {
     let confirmDelete = window.confirm('Delete item forever?')
     if(confirmDelete){
-      fetch('http://localhost:3000/crud', {
+      fetch('http://localhost:3000/task', {
       method: 'delete',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        id
+        TASK_ID
       })
     })
       .then(response => response.json())
       .then(item => {
-        props.deleteItemFromState(id)
+        props.deleteItemFromState(TASK_ID)
       })
       .catch(err => console.log(err))
     }
@@ -25,19 +25,15 @@ function DataTable(props){
 
   const items = props.items.map(item => {
     return (
-      <tr key={item.id}>
-        <th scope="row">{item.id}</th>
-        <td>{item.first}</td>
-        <td>{item.last}</td>
-        <td>{item.email}</td>
-        <td>{item.phone}</td>
-        <td>{item.location}</td>
-        <td>{item.hobby}</td>
+      <tr key={item.TASK_ID}>
+        <th scope="row">{item.TASK_ID}</th>
+        <td>{item.TASK_NAME}</td>
+        <td>{item.TASK_TYPE}</td>
         <td>
           <div style={{width:"110px"}}>
             <ModalForm buttonLabel="Edit" item={item} updateState={props.updateState}/>
             {' '}
-            <Button color="danger" onClick={() => deleteItem(item.id)}>Del</Button>
+            <Button color="danger" onClick={() => deleteItem(item.TASK_ID)}>Del</Button>
           </div>
         </td>
       </tr>
@@ -49,13 +45,8 @@ function DataTable(props){
       <thead>
         <tr>
           <th>ID</th>
-          <th>First</th>
-          <th>Last</th>
-          <th>Email</th>
-          <th>Phone</th>
-          <th>Location</th>
-          <th>Hobby</th>
-          <th>Actions</th>
+          <th>Task Name</th>
+          <th>Task Type</th>
         </tr>
       </thead>
       <tbody>
@@ -65,4 +56,4 @@ function DataTable(props){
   )
 }
 
-export default DataTable
+export default TaskTable
