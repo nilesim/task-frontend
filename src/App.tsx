@@ -31,11 +31,14 @@ export default class App extends Component<AppProps, AppState> {
   
   constructor(props: AppProps) {
     super(props)
+    this.setState({ 
+      items: [this.getItems()] 
+    });
     this.tableName = props.tableName
   }
 
 
-  const getItems () {
+   getItems () {
     fetch('http://localhost:3000/' + this.tableName)
       .then(response => response.json())
       .then(items => this.setState(items))
@@ -48,34 +51,30 @@ export default class App extends Component<AppProps, AppState> {
     });
   };
 
-  const updateState = (item: { TASK_ID: any; }) => {
+   updateState = (item: { TASK_ID: any; }) => {
     const itemIndex = this.state.items.findIndex((data: { TASK_ID: any; }) => data.TASK_ID === item.TASK_ID)
     const newArray = [...this.state.items.slice(0, itemIndex), item, ...this.state.items.slice(itemIndex + 1)]
     this.setState({ items: newArray });
   }
 
-  const deleteItemFromState = (TASK_ID: any) => {
+   deleteItemFromState = (TASK_ID: any) => {
     const updatedItems = this.state.items.filter((item: { TASK_ID: any; }) => item.TASK_ID !== TASK_ID)
     this.setState({ items: updatedItems });
   }
 
-  const updateReconState = (item: { TASK_ID: any; TASK_VERSION_ID: any; }) => {
+   updateReconState = (item: { TASK_ID: any; TASK_VERSION_ID: any; }) => {
     const itemIndex = this.state.items.findIndex((data: { TASK_ID: any; TASK_VERSION_ID: any; }) => 
       (data.TASK_ID === item.TASK_ID) && (data.TASK_VERSION_ID === item.TASK_VERSION_ID))
     const newArray = [...this.state.items.slice(0, itemIndex), item, ...this.state.items.slice(itemIndex + 1)]
     this.setState({ items: newArray });
   }
   
-  const deleteReconFromState = (TASK_ID: any, TASK_VERSION_ID: any) => {
+   deleteReconFromState = (TASK_ID: any, TASK_VERSION_ID: any) => {
     const updatedItems = this.state.items.filter((item: { TASK_ID: any; TASK_VERSION_ID: any; }) => (item.TASK_ID !== TASK_ID)  && (item.TASK_VERSION_ID !== TASK_VERSION_ID))
     this.setState({ items: updatedItems });
   };
 
-  useEffect(() => {
-    this.getItems()
-  }, []);
-
-  
+render() {
   return (
     <Container className="App">
       <Router>
@@ -109,40 +108,41 @@ export default class App extends Component<AppProps, AppState> {
       
       <br></br>
       <Row>
-        <Col hidden={(tableName!=='task')}>
+        <Col hidden={(this.props.tableName!=='task')}>
           <CSVLink
             filename={"db.csv"}
             color="primary"
             style={{float: "left", marginRight: "10px"}}
             className="btn btn-primary"
-            data={items}>
+            data={this.state.items}>
             Download CSV
           </CSVLink>
-          <ModalForm buttonLabel="Add Item" addItemToState={addItemToState}/>
+          <ModalForm buttonLabel="Add Item" addItemToState={this.addItemToState}/>
         </Col>
-        <Col hidden={(tableName!=='recon')}>
+        <Col hidden={(this.props.tableName!=='recon')}>
           <CSVLink
             filename={"db.csv"}
             color="primary"
             style={{float: "left", marginRight: "10px"}}
             className="btn btn-primary"
-            data={items}>
+            data={this.state.items}>
             Download CSV
           </CSVLink>
-          <ModalReconForm buttonLabel="Add Item" addItemToState={addItemToState} />
+          <ModalReconForm buttonLabel="Add Item" addItemToState={this.addItemToState} />
         </Col>
       </Row>
       <br></br>
       <Row>
-        <Col hidden={(tableName!=='task')}>
-          <TaskTable items={items} updateState={updateState} deleteItemFromState={deleteItemFromState} />
+        <Col hidden={(this.props.tableName!=='task')}>
+          <TaskTable items={this.state.items} updateState={this.updateState} deleteItemFromState={this.deleteItemFromState} />
         </Col>
-        <Col hidden={(tableName!=='recon')}>
-          <ReconTable items={items} updateReconState={updateReconState} deleteItemFromState={deleteReconFromState} />
+        <Col hidden={(this.props.tableName!=='recon')}>
+          <ReconTable items={this.state.items} updateReconState={this.updateReconState} deleteItemFromState={this.deleteReconFromState} />
         </Col>
       </Row>
     </Container>
 )
+  }
 
 
 }
