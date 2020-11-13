@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { Container, Row, Col } from 'reactstrap'
+import Auth from './auth/Auth'
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 
 import Login from "./Components/Forms/Login.component";
 import SignUp from "./Components/Forms/SignUp.component";
-import ModalForm from './Components/Modals/Modal'
-import ModalReconForm from './Components/Modals/ReconModal'
-import ReconTable from './Components/Tables/ReconTable'
-import TaskTable from './Components/Tables/TaskTable'
-import { CSVLink } from "react-csv"
+import Tabs from "./Components/Forms/Tabs.component"
+
 
 function App(props) {
 
@@ -22,6 +20,7 @@ function App(props) {
       .then(items => setItems(items))
       .catch(err => console.log(err))
   }
+
 
   const addItemToState = (item) => {
     setItems([...items, item])
@@ -50,8 +49,19 @@ function App(props) {
     setItems(updatedItems)
   }
 
+  const getAuthenticated = () => {
+    await authenticate({
+    ldapOpts: { url: 'ldap://ldapenterprisetest.turkcell.tgc:389' },
+    userDn: 'uid=radar, ou=SpecialUsers,dc=entp,dc=tgc',
+    userPassword: 'Test1234',
+    userSearchBase: 'dc=entp,dc=tgc',
+    usernameAttribute: 'uid',
+    username: 'radar',
+  })
+}
+
   useEffect(() => {
-    getItems()
+    getAuthenticated()
   }, []);
 
   
@@ -63,6 +73,10 @@ function App(props) {
           <Link className="navbar-brand" to={"/sign-in"}>Turkcell</Link>
           <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul className="navbar-nav ml-auto">
+              
+              <li className="nav-item">
+                <Link className="nav-link" to={"/home"}>Home</Link>
+              </li>
               <li className="nav-item">
                 <Link className="nav-link" to={"/sign-in"}>Login</Link>
               </li>
@@ -77,49 +91,15 @@ function App(props) {
       <div className="auth-wrapper">
         <div className="auth-inner">
           <Switch>
-            <Route exact path='/' component={Login} />
+            <Route exact path='/' />
             <Route path="/sign-in" component={Login} />
             <Route path="/sign-up" component={SignUp} />
+            <Route path="/home" component={Tabs} />
           </Switch>
         </div>
       </div>
       </Router>
-
       
-      <br></br>
-      <Row>
-        <Col hidden={(tableName!=='task')}>
-          <CSVLink
-            filename={"db.csv"}
-            color="primary"
-            style={{float: "left", marginRight: "10px"}}
-            className="btn btn-primary"
-            data={items}>
-            Download CSV
-          </CSVLink>
-          <ModalForm buttonLabel="Add Item" addItemToState={addItemToState}/>
-        </Col>
-        <Col hidden={(tableName!=='recon')}>
-          <CSVLink
-            filename={"db.csv"}
-            color="primary"
-            style={{float: "left", marginRight: "10px"}}
-            className="btn btn-primary"
-            data={items}>
-            Download CSV
-          </CSVLink>
-          <ModalReconForm buttonLabel="Add Item" addItemToState={addItemToState} />
-        </Col>
-      </Row>
-      <br></br>
-      <Row>
-        <Col hidden={(tableName!=='task')}>
-          <TaskTable items={items} updateState={updateState} deleteItemFromState={deleteItemFromState} />
-        </Col>
-        <Col hidden={(tableName!=='recon')}>
-          <ReconTable items={items} updateReconState={updateReconState} deleteItemFromState={deleteReconFromState} />
-        </Col>
-      </Row>
     </Container>
 )
 

@@ -1,18 +1,12 @@
-import auth0 from 'auth0-js';
 import { authConfig } from '../config';
+import { authenticate } from 'ldap-authentication';
+
+
 
 export default class Auth {
   accessToken;
   idToken;
   expiresAt;
-
-  auth0 = new auth0.WebAuth({
-    domain: authConfig.domain,
-    clientID: authConfig.clientId,
-    redirectUri: authConfig.callbackUrl,
-    responseType: 'token id_token',
-    scope: 'openid'
-  });
 
   constructor(history) {
     this.history = history
@@ -26,8 +20,20 @@ export default class Auth {
     this.renewSession = this.renewSession.bind(this);
   }
 
-  login() {
-    this.auth0.authorize();
+  async login() {
+    console.log("authenticated")
+    
+    const authenticated = await authenticate({
+      ldapOpts: { url: 'ldap://ldapenterprisetest.turkcell.tgc:389' },
+      userDn: 'uid=radar, ou=SpecialUsers,dc=entp,dc=tgc',
+      userPassword: 'Test1234',
+      userSearchBase: 'dc=entp,dc=tgc',
+      usernameAttribute: 'uid',
+      username: 'radar',
+    })
+
+    console.log("authenticated ends")
+    console.log(authenticated)
   }
 
   handleAuthentication() {
