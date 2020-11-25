@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { Container, Row, Col } from 'reactstrap'
-import Auth from './auth/Auth'
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-
 
 import Login from "./Components/Forms/Login.component";
 import SignUp from "./Components/Forms/SignUp.component";
 import Tabs from "./Components/Forms/Tabs.component"
+import Auth from './auth/Auth';
 
+function App() {
 
-function App(props) {
-
-  const tableName = props.tableName
+/*  const tableName = props.tableName
   const [items, setItems] = useState([])
 
   const getItems= () => {
@@ -48,20 +46,32 @@ function App(props) {
     const updatedItems = items.filter(item => (item.TASK_ID !== TASK_ID)  && (item.TASK_VERSION_ID !== TASK_VERSION_ID))
     setItems(updatedItems)
   }
+*/
 
-  const getAuthenticated = () => {
-    await authenticate({
-    ldapOpts: { url: 'ldap://ldapenterprisetest.turkcell.tgc:389' },
-    userDn: 'uid=radar, ou=SpecialUsers,dc=entp,dc=tgc',
-    userPassword: 'Test1234',
-    userSearchBase: 'dc=entp,dc=tgc',
-    usernameAttribute: 'uid',
-    username: 'radar',
-  })
-}
+
+const auth = new Auth();
+debugger;
+auth.login();
+
+
+/*
+var ldap = require('ldapjs');
+var client = ldap.createClient({
+  url: 'ldap://10.214.125.171:389'
+});
+*/
+/*
+const authenticated = await authenticate({
+  ldapOpts: { url: 'ldap://ldapenterprisetest.turkcell.tgc:389' },
+  userDn: 'uid=radar, ou=SpecialUsers,dc=entp,dc=tgc',
+  userPassword: 'Test1234',
+  userSearchBase: 'dc=entp,dc=tgc',
+  usernameAttribute: 'uid',
+  username: 'radar',
+})*/
 
   useEffect(() => {
-    getAuthenticated()
+    
   }, []);
 
   
@@ -70,7 +80,7 @@ function App(props) {
       <Router>
       <nav className="navbar navbar-expand-lg navbar-light fixed-top">
         <div className="container">
-          <Link className="navbar-brand" to={"/sign-in"}>Turkcell</Link>
+          <Link className="navbar-brand" to={"/sign-in"}>Turkcell Radar</Link>
           <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul className="navbar-nav ml-auto">
               
@@ -106,4 +116,4 @@ function App(props) {
 
 }
 
-export default App
+export default App;

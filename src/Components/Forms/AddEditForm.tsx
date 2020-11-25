@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
-function AddEditForm(props) {
+/*export function AddEditForm(props) {
   const[form, setValues] = useState({
     TASK_ID: 0,
     task_version_id: '',
@@ -249,4 +249,4 @@ function AddEditForm(props) {
   )
 }
 
-export default AddEditForm
+export default AddEditForm*/

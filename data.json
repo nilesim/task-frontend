@@ -1,0 +1,192 @@
+[
+    {
+        "TASK_ID": 73,
+        "TASK_NAME": "Tekrar eden ücretlerin uyum kontrolü - RULE 463",
+        "TASK_TYPE": "RECON"
+    },
+    {
+        "TASK_ID": 74,
+        "TASK_NAME": "Civ kontrol - RULE 72 ",
+        "TASK_TYPE": "RECON"
+    },
+    {
+        "TASK_ID": 75,
+        "TASK_NAME": "Superbox - SOLCRM, SLCM mutabakatı",
+        "TASK_TYPE": "RECON"
+    },
+    {
+        "TASK_ID": 96,
+        "TASK_NAME": "SUPERBOX SOL CRM Sahip Olunmaması Gereken Paketler Kontrolu",
+        "TASK_TYPE": "RECON"
+    },
+    {
+        "TASK_ID": 149,
+        "TASK_NAME": "Töhaş-Billing Mutabakat UNBILLED",
+        "TASK_TYPE": "RECON"
+    },
+    {
+        "TASK_ID": 60,
+        "TASK_NAME": "BELEK",
+        "TASK_TYPE": "RECON"
+    },
+    {
+        "TASK_ID": 50,
+        "TASK_NAME": "test",
+        "TASK_TYPE": "RECON"
+    },
+    {
+        "TASK_ID": 15,
+        "TASK_NAME": "Kurumsal sabit data hatlarının mutabakatı",
+        "TASK_TYPE": "RECON"
+    },
+    {
+        "TASK_ID": 10,
+        "TASK_NAME": "TT Toplu Ödemeler",
+        "TASK_TYPE": "RECON"
+    },
+    {
+        "TASK_ID": 200,
+        "TASK_NAME": "THK TT-CRM Mutabakatı (TEST)",
+        "TASK_TYPE": "RECON"
+    },
+    {
+        "TASK_ID": 140,
+        "TASK_NAME": "IPTV abonelerinin STB Seri numaraları MAC Address",
+        "TASK_TYPE": "RECON"
+    },
+    {
+        "TASK_ID": 22,
+        "TASK_NAME": "DBS -TESLA&TBAS Mutabakatı",
+        "TASK_TYPE": "RECON"
+    },
+    {
+        "TASK_ID": 14,
+        "TASK_NAME": "TV teklifleri (Main ve Addon) bütünleşik mutabakat",
+        "TASK_TYPE": "RECON"
+    },
+    {
+        "TASK_ID": 1,
+        "TASK_NAME": "CRM TESLA TEKRAR EDEN ÜCRETLERIN KONTROLÜ - RULE 458",
+        "TASK_TYPE": "RECON"
+    },
+    {
+        "TASK_ID": 2,
+        "TASK_NAME": "CRM TESLA Fatura Hesabı Kur Tipi Kontrolü - RULE 49",
+        "TASK_TYPE": "RECON"
+    },
+    {
+        "TASK_ID": 3,
+        "TASK_NAME": "CRM TESLA FEE_ID TEK SEFERLİK ÜCRETLERIN KONTROLÜ - RULE 459",
+        "TASK_TYPE": "RECON"
+    },
+    {
+        "TASK_ID": 4,
+        "TASK_NAME": "CRM TESLA CRM de Olup BILLING de Olmayan Müşteri Numarası - RULE 2",
+        "TASK_TYPE": "RECON"
+    },
+    {
+        "TASK_ID": 5,
+        "TASK_NAME": "CRM TESLA SÖZLEŞMEDE BELİRLENEN ÜCRETLERİN KONTROLÜ - RULE 457",
+        "TASK_TYPE": "RECON"
+    },
+    {
+        "TASK_ID": 6,
+        "TASK_NAME": "CRM TESLA FEE_ID TEK SEFERLİK ÜCRETLERIN UYUM KONTROLÜ - RULE 456",
+        "TASK_TYPE": "RECON"
+    },
+    {
+        "TASK_ID": 17,
+        "TASK_NAME": "Assignment uyum kontrolÃ¼",
+        "TASK_TYPE": "RECON"
+    },
+    {
+        "TASK_ID": 76,
+        "TASK_NAME": "Töhaş-TFŞ Order Mutabakat",
+        "TASK_TYPE": "RECON"
+    },
+    {
+        "TASK_ID": 18,
+        "TASK_NAME": "Fiyat değişikliği uyum kontrolü",
+        "TASK_TYPE": "RECON"
+    },
+    {
+        "TASK_ID": 11,
+        "TASK_NAME": "dummy",
+        "TASK_TYPE": "RECON"
+    },
+    {
+        "TASK_ID": 29,
+        "TASK_NAME": "CRM-Tesla tarife Ã¼cret karÅÄ±laÅtÄ±rmasÄ±",
+        "TASK_TYPE": "RECON"
+    },
+    {
+        "TASK_ID": 177,
+        "TASK_NAME": "SLCMSDP",
+        "TASK_TYPE": "RECON"
+    },
+    {
+        "TASK_ID": 46,
+        "TASK_NAME": "VAE-SUPERONLINE kontrolü",
+        "TASK_TYPE": "RECON"
+    },
+    {
+        "TASK_ID": 21,
+        "TASK_NAME": " Trace - CRM MutabakatÄ±",
+        "TASK_TYPE": "RECON"
+    },
+    {
+        "TASK_ID": 16,
+        "TASK_NAME": "Bireysel fiber mutabakatı",
+        "TASK_TYPE": "RECON"
+    },
+    {
+        "TASK_ID": 24,
+        "TASK_NAME": "VODAFONE FIBER MUTABAKATI",
+        "TASK_TYPE": "RECON"
+    },
+    {
+        "TASK_ID": 25,
+        "TASK_NAME": "FIBER TOPTAN MUTABAKATI",
+        "TASK_TYPE": "RECON"
+    },
+    {
+        "TASK_ID": 23,
+        "TASK_NAME": "ADSL-SUPERONLINE-TT kontrolü",
+        "TASK_TYPE": "RECON"
+    },
+    {
+        "TASK_ID": 7,
+        "TASK_NAME": "TV abonelerinin Addon paket bilgileri",
+        "TASK_TYPE": "RECON"
+    },
+    {
+        "TASK_ID": 8,
+        "TASK_NAME": "TV abonelerinin abonelik tipi ve TV Ana paket bilgileri",
+        "TASK_TYPE": "RECON"
+    },
+    {
+        "TASK_ID": 9,
+        "TASK_NAME": "IPTV abonelerinin STB Seri numaraları ",
+        "TASK_TYPE": "RECON"
+    },
+    {
+        "TASK_ID": 26,
+        "TASK_NAME": "Fizy - SLCM kontrolleri",
+        "TASK_TYPE": "RECON"
+    },
+    {
+        "TASK_ID": 155,
+        "TASK_NAME": "Töhaş-Billing Mutabakat BILLED",
+        "TASK_TYPE": "RECON"
+    },
+    {
+        "TASK_ID": 20,
+        "TASK_NAME": "Superbox PCRF kontrolü",
+        "TASK_TYPE": "RECON"
+    },
+    {
+        "TASK_ID": 110,
+        "TASK_NAME": "ACME - CRM VOIP",
+        "TASK_TYPE": "RECON"
+    }
+]

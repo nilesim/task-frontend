@@ -1,0 +1,17 @@
+{
+    "cellKey": "TASK_NAME",
+    "fromRow": 1,
+    "toRow": 1,
+    "rowIds": [
+        null
+    ],
+    "updated": {
+        "TASK_NAME": "Civ kontrol - RULE 72 - selin"
+    },
+    "action": "CELL_UPDATE",
+    "fromRowData": {
+        "TASK_ID": 74,
+        "TASK_NAME": "Civ kontrol - RULE 72 ",
+        "TASK_TYPE": "RECON"
+    }
+}

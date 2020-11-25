@@ -21,6 +21,8 @@ export default class Auth {
   }
 
   async login() {
+    
+    /*
     console.log("authenticated")
     
     const authenticated = await authenticate({
@@ -34,6 +36,7 @@ export default class Auth {
 
     console.log("authenticated ends")
     console.log(authenticated)
+    */
   }
 
   handleAuthentication() {
