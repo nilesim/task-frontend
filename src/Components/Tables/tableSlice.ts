@@ -1,22 +1,34 @@
 import { createSlice, PayloadAction, Dispatch } from "@reduxjs/toolkit";
+import { ColDef } from "@material-ui/data-grid";
 
 
 type Column = {
     field: string;
-    align: "left" | "center" | "right";
-    title: string;
+    headerName: string;
+    width: number;
+    type?: undefined;
+    description?: undefined;
+    sortable?: undefined;
+    valueGetter?: undefined;
 };
 
 type ColumnData = {
-    key: string;
-    name: string;
-    editable?: boolean;
+    field: string;
+    headerName: string;
+    width?: number;
+    type?: undefined;
+    description?: undefined;
+    sortable?: undefined;
+    valueGetter?: undefined;
 }
 
 type TableState = {
     data?: TableDataType;
     isLoading?: boolean;
     error?: string;
+    onEdit?: boolean;
+    rowsToDelete?: RowData[];
+    rowToEdit?: RowData;
 }
 
 const initialState = {
@@ -29,16 +41,21 @@ export type TableNames = keyof SuperState;
 
 type RowData = any;
 
-type TableDataType = { columns: ColumnData[]; rows: RowData[] };
+type TableDataType = { columns: ColDef[]; rows: RowData[] };
 type TableSuccessParam = { tableName: TableNames, data: TableDataType };
 type TableErrorParam = { tableName: TableNames, data: string };
+type TableSelectedRowsParam = { tableName: TableNames, data: any[]};
+type TableSelectedRowParam = { tableName: TableNames, data: RowData };
+
 export type TableRowUpdateParam = { tableName: TableNames, fromRow: number; toRow: number; updated: Record<string, string>; cellKey: string; };
+
 const tableSlice = createSlice({
     name: "table",
     initialState: initialState,
     reducers: {
         fetchTableData(state, action: PayloadAction<TableNames>) {
             state[action.payload].isLoading = true;
+            state[action.payload].onEdit = false;
 
         },
         fetchTableDataSuccess(state, action: PayloadAction<TableSuccessParam>) {
@@ -51,17 +68,28 @@ const tableSlice = createSlice({
             state[tableName].isLoading = false;
             state[tableName].error = data;
         },
-        updateSelectedRows(state, action: PayloadAction<TableRowUpdateParam>) {
-            const { tableName, fromRow: from, toRow: to, updated, cellKey } = action.payload;
-            console.log(action);
+        setSelectedRow(state, action: PayloadAction<TableSelectedRowParam>) {
+            const { tableName, data } = action.payload;
+            state[tableName].rowToEdit = data;
+            state[tableName].onEdit=true;
+        },
+        setRowsToDelete(state, action: PayloadAction<TableSelectedRowsParam>) {
+        
+            const { tableName, data } = action.payload;
             const tableData = state[tableName].data;
-            if (tableData && tableData.rows) {
-                const rows = [...tableData.rows];
+            const rowIds = data.map(x => x.toString());
 
-                rows[from][cellKey] = updated[cellKey];
+            if (tableData) {
+                const rows = tableData.rows || [];
 
-                tableData.rows = rows;
+                const filtered = rows.filter(val => {
+                   return rowIds.includes((val.id || "").toString());
+                });
+
+                state[tableName].rowsToDelete = [...filtered];
             }
+            console.log("selected rows:");
+            console.log(state[tableName].rowsToDelete);
         }
     }
 });
@@ -78,18 +106,49 @@ export const TableActions = {
 
             if (Array.isArray(tableData) && tableData.length > 0) {
                 const firstItem = tableData[0];
-                const columns = Object.keys(firstItem).map(colName => ({ key: colName, name: colName, editable: true } as ColumnData));
-                const rows = tableData;
+                let columns = Object.keys(firstItem).map(colName => ({
+                    field: colName,
+                    headerName: colName,
+                    width: 250
+                } as ColDef));
+
+                const rows = tableData.map((rowData, index) => {
+                    return { id: index + 1, ...rowData };
+                });
                 const data = { columns, rows };
                 dispatch(TableActions.fetchTableDataSuccess({ tableName, data }));
             }
-
         }
         catch (err) {
             dispatch(TableActions.fetchTableDataError({ tableName, data: err.toString() }));
         }
-    }/*,
-    async submitTableAddAsync (dispatch: Dispatch, payload:TableRowUpdateParam) {
+    },
+    async submitTableDeleteAsync(dispatch: Dispatch, tableName: TableNames, payload: RowData[]) {
+        try {
+            const response = await fetch('http://localhost:3000/' + tableName, {
+                method: 'delete',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    payload
+                })
+            });
+            TableActions.fetchTableDataAsync(dispatch, tableName);
+
+            ///
+            // const deletedTask: Task = await response.json();
+            //props.deleteItemFromState(task_id);
+        }
+        catch (err) {
+            console.error(err);
+            //TODO: give the error to user
+            dispatch(TableActions.fetchTableDataError({ tableName, data: err.toString() }));
+        }
+
+    }
+    /*,
+    async submitTableAddAsync (dispatch: Dispatch, tableName: TableNames, payload:TableRowUpdateParam) {
         const { tableName, fromRow: from, toRow: to, updated, cellKey } = payload;
         dispatch(TableActions.fetchTableData(tableName));
         const tableData = await response.json() as any[];

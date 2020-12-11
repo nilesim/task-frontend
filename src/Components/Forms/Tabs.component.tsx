@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
-import DataGrid from "../Tables/DataGrid";
+
+import TableGrid from "../Tables/TableGrid";
 import TaskTable from "../Tables/TaskTable";
 
 
@@ -34,22 +35,20 @@ const HeaderTabs: React.FunctionComponent = () => {
               <Tab>Recons</Tab>
               <Tab>Scheduler</Tab>
             </TabList>
-
             <TabPanel className="bg">
-              <h2 className="display-5">Task Definition</h2>
-              <DataGrid tableName='task' />
+              <h4 className="display-5">Task Definition</h4>
+              <TableGrid tableName='task' />
             </TabPanel>
             <TabPanel className="bg">
-              <h2 className="display-5">Reconciliation Definition</h2>
-              <DataGrid tableName='recon' />
+              <h4 className="display-5">Reconciliation Definition</h4>
+              <TableGrid tableName='recon' />
             </TabPanel>
             <TabPanel className="bg">
-              <h2 className="display-5">Scheduler</h2>
-              <DataGrid tableName='scheduler' />
+              <h4 className="display-5">Scheduler</h4>
+              <TableGrid tableName='scheduler' />
             </TabPanel>
           </Tabs>
     </div>
-
     </React.Fragment>
   );
 };
