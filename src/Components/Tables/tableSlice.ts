@@ -46,6 +46,7 @@ type TableSuccessParam = { tableName: TableNames, data: TableDataType };
 type TableErrorParam = { tableName: TableNames, data: string };
 type TableSelectedRowsParam = { tableName: TableNames, data: any[]};
 type TableSelectedRowParam = { tableName: TableNames, data: RowData };
+type TableEditRowParam = { tableName: TableNames, key: string, value: string };
 
 export type TableRowUpdateParam = { tableName: TableNames, fromRow: number; toRow: number; updated: Record<string, string>; cellKey: string; };
 
@@ -72,6 +73,14 @@ const tableSlice = createSlice({
             const { tableName, data } = action.payload;
             state[tableName].rowToEdit = data;
             state[tableName].onEdit=true;
+        },
+        changeSelectedRow(state, action: PayloadAction<TableEditRowParam>) {
+            const { tableName, key, value } = action.payload;
+            state[tableName].rowToEdit[key] = value;
+        },
+        cancelEdit(state, action: PayloadAction<TableNames>) {
+            state[action.payload].onEdit = false;
+            state[action.payload].rowToEdit = {};
         },
         setRowsToDelete(state, action: PayloadAction<TableSelectedRowsParam>) {
         
@@ -139,6 +148,26 @@ export const TableActions = {
             ///
             // const deletedTask: Task = await response.json();
             //props.deleteItemFromState(task_id);
+        }
+        catch (err) {
+            console.error(err);
+            //TODO: give the error to user
+            dispatch(TableActions.fetchTableDataError({ tableName, data: err.toString() }));
+        }
+
+    },
+    async submitTableEditAsync(dispatch: Dispatch, tableName: TableNames, payload: RowData) {
+        try {
+            const response = await fetch('http://localhost:3000/' + tableName, {
+                method: 'put',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    payload
+                })
+            });
+            TableActions.fetchTableDataAsync(dispatch, tableName);
         }
         catch (err) {
             console.error(err);

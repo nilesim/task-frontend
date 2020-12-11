@@ -66,7 +66,7 @@ function App() {
       
       <nav className="navbar navbar-expand-lg navbar-light fixed-top">
         <div className="container">
-          <Link className="navbar-brand" to={Routes.signIn.path}>Turkcell Radar</Link>
+          <Link className="navbar-brand" to={Routes.home.path}>Turkcell Radar</Link>
           <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul className="navbar-nav ml-auto">
              {activeLinks}

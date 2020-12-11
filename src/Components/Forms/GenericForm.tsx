@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
 import FormControl from "@material-ui/core/FormControl";
 import FormHelperText from "@material-ui/core/FormHelperText";
-import Input from "@material-ui/core/Input";
+import { TableNames, TableActions } from "../Tables/tableSlice";
 import InputLabel from "@material-ui/core/InputLabel";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
-import { TableNames } from '../Tables/tableSlice';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../app/store';
 import Button from "@material-ui/core/Button";
 import SendIcon from "@material-ui/icons/Send";
@@ -17,8 +16,8 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: theme.spacing(1)
     },
     root: {
-      '& .MuiTextField-root': {
-        margin: theme.spacing(5),
+      '& .MuiFormControl-root': {
+        margin: theme.spacing(1),
         width: '25ch',
       },
     },
@@ -31,73 +30,68 @@ type GenericFormProps = {
 
 const GenericForm: React.FC<GenericFormProps> = props => {
   const classes = useStyles();
-  const state = useSelector((rootState: RootState) => rootState.tables[props.tableName].rowToEdit);
-  if (!state) {
+  const dispatch = useDispatch();
+  const state = useSelector((rootState: RootState) => rootState.tables[props.tableName]);
+  const rowState = useSelector((rootState: RootState) => rootState.tables[props.tableName].rowToEdit);
+  if (!rowState) {
     return <b>No row selected</b>;
   }
-  const columns = Object.keys(state);
-  debugger;
+  const columns = Object.keys(rowState);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(TableActions.changeSelectedRow(
+      {
+        tableName: props.tableName,
+        key: event.target.id, 
+        value: event.target.value
+      }));
+    console.log(event.target.value, rowState);
+  };
+
+  const handleCancel = () => {
+    dispatch(TableActions.cancelEdit(props.tableName));
+    console.log(rowState);
+    return;
+  };
+
+  const handleSubmit = () => {
+    TableActions.submitTableEditAsync(dispatch, props.tableName, rowState );
+    console.log(rowState);
+    return;
+  };
+
   return (
     <React.Fragment>
       <form className={classes.root} >
         {
           columns.map(col => {
-            if(col==="id")
+            if (col === "id")
               return;
             return (
-              <FormControl variant="outlined">
-              <InputLabel htmlFor="component-outlined">{col}</InputLabel>
-              <OutlinedInput id="component-outlined" value={state[col]} 
-              // onChange={handleChange} 
-              label="Name" />
-              <FormHelperText id="component-helper-text">
-                {col}
-              </FormHelperText>
-            </FormControl>
+              <FormControl variant="outlined" key={col} >
+                <InputLabel htmlFor="component-outlined">{col}</InputLabel>
+                <OutlinedInput id={col} value={rowState[col]}
+                  onChange={handleChange}
+                  accessKey={col}
+                  key={col}
+                  label="{col}" />
+                <FormHelperText id="component-helper-text">
+                  {col}
+                </FormHelperText>
+              </FormControl>
             )
           })
         }
-        <Button variant="contained" color="primary" className={classes.button} endIcon={<SendIcon />} >
+        <Button variant="contained" color="primary" className={classes.button} onClick={handleSubmit} endIcon={<SendIcon />} >
           Submit
         </Button>
-        <Button variant="contained" color="secondary" className={classes.button} endIcon={<SendIcon />} >
+        <Button variant="contained" color="secondary" className={classes.button} onClick={handleCancel} endIcon={<SendIcon />} >
           Cancel
         </Button>
       </form>
     </React.Fragment>
   )
-/*
-  return (
-    <React.Fragment>
-    <form noValidate autoComplete="off">
-      <FormControl disabled>
-        <InputLabel htmlFor="component-outlined">Name</InputLabel>
-        <Input id="component-outlined" value={name} 
-        // onChange={handleChange} 
-        />
-        <FormHelperText id="component-helper-text">Disabled</FormHelperText>
-      </FormControl>
-      <FormControl variant="outlined">
-        <InputLabel htmlFor="component-outlined">Name</InputLabel>
-        <OutlinedInput id="component-outlined" value={name} 
-        // onChange={handleChange} 
-        label="Name" />
-        <FormHelperText id="component-helper-text">
-          Some important helper text
-        </FormHelperText>
-      </FormControl>
-      <FormControl variant="outlined">
-        <InputLabel htmlFor="component-outlined">Name</InputLabel>
-        <OutlinedInput id="component-outlined" value={name} 
-        // onChange={handleChange} 
-        label="Name" />
-        <FormHelperText id="component-helper-text">
-          Some important helper text
-        </FormHelperText>
-      </FormControl>
-    </form>
-    </React.Fragment>
-  )*/
+
 
   //call redux dispatch for row
   /*
