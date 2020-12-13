@@ -21,19 +21,25 @@ export default class Auth {
   }
 
   async login() {
-    console.log("authenticated")
-    
-    const authenticated = await authenticate({
-      ldapOpts: { url: 'ldap://ldapenterprisetest.turkcell.tgc:389' },
-      userDn: 'uid=radar, ou=SpecialUsers,dc=entp,dc=tgc',
-      userPassword: 'Test1234',
-      userSearchBase: 'dc=entp,dc=tgc',
-      usernameAttribute: 'uid',
-      username: 'radar',
-    })
-
-    console.log("authenticated ends")
-    console.log(authenticated)
+    const isAuthenticated = e => {
+      e.preventDefault()
+      fetch('http://localhost:3000/authenticate', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          userId: userName,
+          password: password
+        })
+      })
+        .then(response => {
+          if(response.json().isSuccess) {
+            dispatch(loginSuccess({userName}));
+          }
+        })
+        .catch(err => console.log(err))
+      };
   }
 
   handleAuthentication() {
