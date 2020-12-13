@@ -78,6 +78,15 @@ const TableGrid: React.FC<TableGridProps> = props => {
         }
       }, ...tableData.columns];
   }
+  
+  const newItem = () => {
+    dispatch(TableActions.setSelectedRow({ tableName: props.tableName, data: {
+      "TASK_ID": "",
+      "TASK_NAME": "",
+      "TASK_TYPE": "",
+      "id": "-1"
+    } }));  
+  };
 
   const deleteItem = () => {
     if (!state.rowsToDelete) {
@@ -112,7 +121,7 @@ const TableGrid: React.FC<TableGridProps> = props => {
           Delete
         </Button>
         {/* This Button uses a Font Icon, see the installation instructions in the Icon component docs. */}
-        <Button variant="contained" color="primary" className={classes.button} endIcon={<SendIcon />} >
+        <Button variant="contained" color="primary" className={classes.button} onClick={newItem} endIcon={<SendIcon />} >
           New
         </Button>
       </div>

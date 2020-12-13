@@ -5,9 +5,6 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 
 import TableGrid from "../Tables/TableGrid";
-import TaskTable from "../Tables/TaskTable";
-
-
 
 const HeaderTabs: React.FunctionComponent = () => {
   const [count, setCount] = useState(0);

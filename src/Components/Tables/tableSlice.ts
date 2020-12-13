@@ -158,6 +158,7 @@ export const TableActions = {
     },
     async submitTableEditAsync(dispatch: Dispatch, tableName: TableNames, payload: RowData) {
         try {
+            debugger;
             const response = await fetch('http://localhost:3000/' + tableName, {
                 method: 'put',
                 headers: {
@@ -166,7 +167,13 @@ export const TableActions = {
                 body: JSON.stringify({
                     payload
                 })
-            });
+            })
+            .then(response => response.json())
+            .catch(err => console.log(err));
+
+            if (200 != response.status) {
+                dispatch(TableActions.fetchTableDataError({ tableName, data: response.statusText }));
+            }
             TableActions.fetchTableDataAsync(dispatch, tableName);
         }
         catch (err) {
@@ -175,35 +182,33 @@ export const TableActions = {
             dispatch(TableActions.fetchTableDataError({ tableName, data: err.toString() }));
         }
 
-    }
-    /*,
-    async submitTableAddAsync (dispatch: Dispatch, tableName: TableNames, payload:TableRowUpdateParam) {
-        const { tableName, fromRow: from, toRow: to, updated, cellKey } = payload;
-        dispatch(TableActions.fetchTableData(tableName));
-        const tableData = await response.json() as any[];
+    },
+    async submitTableAddAsync (dispatch: Dispatch, tableName: TableNames, payload:RowData) {
+        try {
+            debugger;
+            const response = await fetch('http://localhost:3000/' + tableName, {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    payload
+                })
+            })
+            .then(response => response.json())
+            .catch(err => console.log(err));
 
-            if (Array.isArray(tableData) && tableData.length > 0) {
-                const firstItem = tableData[0];
-                const columns = Object.keys(firstItem).map(colName => ({ key: colName, name: colName, editable: true } as ColumnData));
-                const rows = tableData;
-                const data = { columns, rows };
+            if (200 != response.status) {
+                dispatch(TableActions.fetchTableDataError({ tableName, data: response.statusText }));
             }
-
-        fetch('http://localhost:3000/' + tableName, {
-          method: 'post',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            TASK_ID: form.TASK_ID,
-            task_version_id: form.task_version_id ,
-            source_1_reporting_name:  form.source_1_reporting_name,
-            source_2_filter: form.source_2_filter 
-          })
-        })
-          .then(response => response.json())
-          .catch(err => console.log(err))
-      }*/
+            TableActions.fetchTableDataAsync(dispatch, tableName);
+        }
+        catch (err) {
+            console.error(err);
+            //TODO: give the error to user
+            dispatch(TableActions.fetchTableDataError({ tableName, data: err.toString() }));
+        }
+    }
 };
 
 export default tableSlice.reducer;

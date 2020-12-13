@@ -27,6 +27,7 @@ type AuthResponse = {
   user: User;
   token: string;
   error: string;
+  errorMessage: string;
 };
 
 const initialState: UserState = {
@@ -47,7 +48,8 @@ const authSlice = createSlice({
       const response = action.payload;
       if (response.error) {
         state.error = response.error;
-        
+        state.isLoading = false;
+        state.showError = true;
       } else {
         state.user = response.user;
         setToken(response.token);
@@ -57,7 +59,10 @@ const authSlice = createSlice({
       state.isLoading = false;
     },
     authError: (state, action: PayloadAction<string>) => {
-      state.error = action.payload;
+      //state.error = action.payload;
+      debugger;
+      console.log(action.payload);
+      state.error = "User could not be found or unauthorized.";
       state.isLoading = false;
       state.showError = true;
     },
@@ -89,7 +94,7 @@ export const AuthActions = {
         dispatch(AuthActions.authSuccess(response.data));
       } else {
         debugger;
-        dispatch(AuthActions.authError(response.data.error));
+        dispatch(AuthActions.authError(response.data.errorMessage));
       }
     }
     catch (err) {
