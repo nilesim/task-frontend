@@ -3,12 +3,7 @@ import { Container } from 'reactstrap'
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import Login from "./Components/Forms/Login.component";
-//import SignUp from "./Components/Forms/SignUp.component";
 import Tabs from "./Components/Forms/Tabs.component"
-//import Auth from './auth/Auth';
-import Button from '@material-ui/core/Button';
-
-
 import 'fontsource-roboto';
 import {useDispatch, useSelector} from 'react-redux'
 import { RootState } from './app/store';
