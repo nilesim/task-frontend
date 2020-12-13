@@ -55,7 +55,11 @@ const GenericForm: React.FC<GenericFormProps> = props => {
   };
 
   const handleSubmit = () => {
-    TableActions.submitTableEditAsync(dispatch, props.tableName, rowState );
+    if (-1 == rowState.id) {
+      TableActions.submitTableAddAsync(dispatch, props.tableName, rowState);
+    } else {
+      TableActions.submitTableEditAsync(dispatch, props.tableName, rowState);
+    }
     console.log(rowState);
     return;
   };
@@ -91,63 +95,6 @@ const GenericForm: React.FC<GenericFormProps> = props => {
       </form>
     </React.Fragment>
   )
-
-
-  //call redux dispatch for row
-  /*
-  const submitFormAdd = e => {
-    e.preventDefault()
-    fetch('http://localhost:3000/task', {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        TASK_NAME: form.TASK_NAME,
-        TASK_TYPE: form.TASK_TYPE
-      })
-    })
-      .then(response => response.json())
-      .then(item => {
-        if(Array.isArray(item)) {
-          props.addItemToState(item[0])
-          props.toggle()
-        } else {
-          console.log(item)
-          console.log('failure')
-        }
-      })
-      .catch(err => console.log(err))
-  }
-
-  const submitFormEdit = e => {
-    e.preventDefault()
-    fetch('http://localhost:3000/task', {
-      method: 'put',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        TASK_ID: form.TASK_ID,
-        TASK_NAME: form.TASK_NAME,
-        TASK_TYPE: form.TASK_TYPE
-      })
-    })
-      .then(response => response.json())
-      .then(item => {
-          props.updateState(item)
-          props.toggle()
-      })
-      .catch(err => console.log(err))
-  }
-
-  useEffect(() => {
-    if(props.item){
-      const { TASK_ID, TASK_NAME, TASK_TYPE } = props.item
-      setValues({ TASK_ID, TASK_NAME, TASK_TYPE })
-    }
-  }, false)*/
-
 
 }
 
